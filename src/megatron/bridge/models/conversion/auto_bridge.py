@@ -483,8 +483,8 @@ class AutoBridge(Generic[MegatronModelT]):
             dist.barrier()
 
         adapter_state: dict[str, torch.Tensor] = {}
-        for name, tensor in self.export_adapter_weights(model, cpu=True, show_progress=show_progress):
-            adapter_state[f"base_model.model.{name}"] = tensor.clone().float()
+        for item in self.export_adapter_weights(model, cpu=True, show_progress=show_progress):
+            adapter_state[f"base_model.model.{item.param_name}"] = item.weight.clone().float()
 
         if not adapter_state:
             raise RuntimeError(
@@ -679,11 +679,12 @@ class AutoBridge(Generic[MegatronModelT]):
             quant_tensors = {}
 
             def _filter_quant(gen):
-                for name, tensor in gen:
+                for item in gen:
+                    name, tensor = item.param_name, item.weight
                     if "_quantizer." in name:
                         quant_tensors[name] = tensor
                         continue
-                    yield name, tensor
+                    yield item
 
             generator = _filter_quant(generator)
 
