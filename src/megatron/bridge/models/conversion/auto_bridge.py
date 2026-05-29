@@ -99,11 +99,11 @@ class AutoBridge(Generic[MegatronModelT]):
         >>> bridge.save_hf_pretrained(megatron_model, "./exported_model")
 
         >>> # Convert weights with custom settings
-        >>> for name, weight in bridge.export_hf_weights(
+        >>> for item in bridge.export_hf_weights(
         ...     megatron_model,
         ...     cpu=True
         ... ):
-        ...     print(f"Exported {name}: {weight.shape}")
+        ...     print(f"Exported {item.param_name}: {item.weight.shape}")
 
         >>> # Check if a model is supported before loading
         >>> if AutoBridge.can_handle("microsoft/phi-2"):
@@ -376,12 +376,12 @@ class AutoBridge(Generic[MegatronModelT]):
 
 
         Yields:
-            HFWeightTuple: Named tuples of (param_name, weight_tensor)
+            HFWeightTuple: Named tuples of (param_name, weight_tensor, megatron_param_name)
 
         Example:
             >>> # Export and process weights
-            >>> for name, weight in bridge.export_hf_weights(model):
-            ...     print(f"{name}: {weight.shape}")
+            >>> for item in bridge.export_hf_weights(model):
+            ...     print(f"{item.param_name}: {item.weight.shape}")
 
             >>> # Export with specific settings
             >>> weights = list(bridge.export_hf_weights(
@@ -418,7 +418,7 @@ class AutoBridge(Generic[MegatronModelT]):
             show_progress: Display progress bar during export
 
         Yields:
-            HFWeightTuple: Named tuples of (param_name, weight_tensor) for adapter parameters
+            HFWeightTuple: Named tuples of (param_name, weight_tensor, megatron_param_name) for adapter parameters
         """
         dispatch_instance = (self._causal_lm_architecture, self._get_model_instance(model))
         return model_bridge.stream_adapter_weights_megatron_to_hf(

@@ -1012,21 +1012,21 @@ class MegatronModelBridge(MegatronPeftBridge, Generic[HFPreTrained, ModelProvide
                 Defaults to True.
 
         Yields:
-            HFWeightTuple: Named tuples of (param_name, weight_tensor) in HF format.
+            HFWeightTuple: Named tuples of (param_name, weight_tensor, megatron_param_name) in HF format.
 
         Example:
             .. code-block:: python
 
                 # Export weights
-                for name, weight in bridge.stream_weights_megatron_to_hf(megatron_model, hf_config):
-                    print(f"Exported {name}: {weight.shape}")
+                for item in bridge.stream_weights_megatron_to_hf(megatron_model, hf_config):
+                    print(f"Exported {item.param_name}: {item.weight.shape}")
 
                 # Or use pre-built conversion tasks
                 tasks = bridge.build_conversion_tasks(hf_config, megatron_model)
-                for name, weight in bridge.stream_weights_megatron_to_hf(
+                for item in bridge.stream_weights_megatron_to_hf(
                     megatron_model, hf_config, conversion_tasks=tasks
                 ):
-                    print(f"Exported {name}: {weight.shape}")
+                    print(f"Exported {item.param_name}: {item.weight.shape}")
 
         Raises:
             ValueError: If input parameters are invalid.
