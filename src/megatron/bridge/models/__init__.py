@@ -76,7 +76,10 @@ from megatron.bridge.models.llama_nemotron import (
     LlamaNemotronBridge,
     LlamaNemotronHeterogeneousProvider,
 )
-from megatron.bridge.models.mamba.mamba_provider import MambaModelProvider
+try:
+    from megatron.bridge.models.mamba.mamba_provider import MambaModelProvider
+except ImportError:
+    MambaModelProvider = None
 from megatron.bridge.models.mimo.mimo_bridge import MimoBridge
 from megatron.bridge.models.minimax_m2 import (
     MiniMaxM2Bridge,
@@ -96,14 +99,22 @@ from megatron.bridge.models.mistral import (
 from megatron.bridge.models.nemotron import (
     NemotronBridge,
 )
-from megatron.bridge.models.nemotron_vl import (
-    NemotronNano12Bv2VLModelProvider,
-    NemotronVLBridge,
-    NemotronVLModel,
-)
-from megatron.bridge.models.nemotronh import (
-    NemotronHBridge,
-)
+try:
+    from megatron.bridge.models.nemotron_vl import (
+        NemotronNano12Bv2VLModelProvider,
+        NemotronVLBridge,
+        NemotronVLModel,
+    )
+except ImportError:
+    NemotronNano12Bv2VLModelProvider = None
+    NemotronVLBridge = None
+    NemotronVLModel = None
+try:
+    from megatron.bridge.models.nemotronh import (
+        NemotronHBridge,
+    )
+except ImportError:
+    NemotronHBridge = None
 from megatron.bridge.models.olmoe import (
     OlMoEBridge,
     OlMoEModelProvider,

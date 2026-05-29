@@ -12,7 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from megatron.bridge.models.mamba.mamba_provider import MambaModelProvider
+try:
+    from megatron.bridge.models.mamba.mamba_provider import MambaModelProvider
+except ImportError:
+    MambaModelProvider = None
 
 
 __all__ = [
