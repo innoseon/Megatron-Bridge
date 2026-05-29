@@ -13,16 +13,23 @@
 # limitations under the License.
 
 from megatron.bridge.models.qwen_vl.modeling_qwen25_vl import Qwen25VLModel
-from megatron.bridge.models.qwen_vl.modelling_qwen3_vl.model import Qwen3VLModel
-from megatron.bridge.models.qwen_vl.qwen3_vl_bridge import Qwen3VLBridge, Qwen3VLMoEBridge
-from megatron.bridge.models.qwen_vl.qwen3_vl_provider import (
-    Qwen3VLModelProvider,
-    Qwen3VLMoEModelProvider,
-)
 from megatron.bridge.models.qwen_vl.qwen25_vl_bridge import Qwen25VLBridge
 from megatron.bridge.models.qwen_vl.qwen25_vl_provider import (
     Qwen25VLModelProvider,
 )
+try:
+    from megatron.bridge.models.qwen_vl.modelling_qwen3_vl.model import Qwen3VLModel
+    from megatron.bridge.models.qwen_vl.qwen3_vl_bridge import Qwen3VLBridge, Qwen3VLMoEBridge
+    from megatron.bridge.models.qwen_vl.qwen3_vl_provider import (
+        Qwen3VLModelProvider,
+        Qwen3VLMoEModelProvider,
+    )
+except ImportError:
+    Qwen3VLModel = None
+    Qwen3VLBridge = None
+    Qwen3VLMoEBridge = None
+    Qwen3VLModelProvider = None
+    Qwen3VLMoEModelProvider = None
 try:
     from megatron.bridge.models.qwen_vl.qwen35_vl_bridge import Qwen35VLBridge, Qwen35VLMoEBridge
     from megatron.bridge.models.qwen_vl.qwen35_vl_provider import Qwen35VLModelProvider, Qwen35VLMoEModelProvider

@@ -138,13 +138,20 @@ from megatron.bridge.models.qwen_vl import (
     Qwen35VLMoEBridge,
     Qwen35VLMoEModelProvider,
 )
-from megatron.bridge.models.qwen_vl.modelling_qwen3_vl import (
-    Qwen3VLBridge,
-    Qwen3VLModel,
-    Qwen3VLModelProvider,
-    Qwen3VLMoEBridge,
-    Qwen3VLMoEModelProvider,
-)
+try:
+    from megatron.bridge.models.qwen_vl.modelling_qwen3_vl import (
+        Qwen3VLBridge,
+        Qwen3VLModel,
+        Qwen3VLModelProvider,
+        Qwen3VLMoEBridge,
+        Qwen3VLMoEModelProvider,
+    )
+except ImportError:
+    Qwen3VLBridge = None
+    Qwen3VLModel = None
+    Qwen3VLModelProvider = None
+    Qwen3VLMoEBridge = None
+    Qwen3VLMoEModelProvider = None
 from megatron.bridge.models.sarvam import (
     SarvamMLABridge,
     SarvamMoEBridge,
