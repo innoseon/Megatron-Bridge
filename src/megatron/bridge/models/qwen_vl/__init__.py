@@ -23,8 +23,14 @@ from megatron.bridge.models.qwen_vl.qwen25_vl_bridge import Qwen25VLBridge
 from megatron.bridge.models.qwen_vl.qwen25_vl_provider import (
     Qwen25VLModelProvider,
 )
-from megatron.bridge.models.qwen_vl.qwen35_vl_bridge import Qwen35VLBridge, Qwen35VLMoEBridge
-from megatron.bridge.models.qwen_vl.qwen35_vl_provider import Qwen35VLModelProvider, Qwen35VLMoEModelProvider
+try:
+    from megatron.bridge.models.qwen_vl.qwen35_vl_bridge import Qwen35VLBridge, Qwen35VLMoEBridge
+    from megatron.bridge.models.qwen_vl.qwen35_vl_provider import Qwen35VLModelProvider, Qwen35VLMoEModelProvider
+except ImportError:
+    Qwen35VLBridge = None
+    Qwen35VLMoEBridge = None
+    Qwen35VLModelProvider = None
+    Qwen35VLMoEModelProvider = None
 
 
 __all__ = [
